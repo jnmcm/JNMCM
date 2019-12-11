@@ -16,7 +16,7 @@
   <children>
       <SplitPane dividerPositions="0.6503006012024048" focusTraversable="true" prefHeight="626.4" prefWidth="986.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
       <items>
-      <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="769.0" style="-fx-background-color: #bee7e0#bee7e0;">
+      <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="769.0" style="-fx-background-color: #bee7e0#bee7e0;" styleClass="bodybg" stylesheets="@../application.css">
         <children>
           <Label alignment="CENTER" layoutX="195.0" layoutY="21.0" prefHeight="58.0" prefWidth="138.0" style="&#10;" text="Line Chart" textAlignment="CENTER" wrapText="false" AnchorPane.topAnchor="21.0">
                      <font>
@@ -33,7 +33,7 @@
                   </LineChart>
         </children>
       </AnchorPane>
-        <AnchorPane prefHeight="598.0" prefWidth="348.0" style="-fx-background-color: #bee7e0#bee7e0;">
+        <AnchorPane prefHeight="598.0" prefWidth="348.0" style="-fx-background-color: #bee7e0#bee7e0;" styleClass="bodybg" stylesheets="@../application.css">
           <children>
             <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Parameters" textAlignment="CENTER" wrapText="false" />
                   <VBox layoutX="84.0" layoutY="125.0" prefHeight="314.0" prefWidth="177.0">
