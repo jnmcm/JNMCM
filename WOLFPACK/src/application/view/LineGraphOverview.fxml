@@ -18,39 +18,41 @@
       <items>
       <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="769.0" style="-fx-background-color: #bee7e0#bee7e0;" styleClass="bodybg" stylesheets="@../application.css">
         <children>
-          <Label alignment="CENTER" layoutX="195.0" layoutY="21.0" prefHeight="58.0" prefWidth="138.0" style="&#10;" text="Line Chart" textAlignment="CENTER" wrapText="false" AnchorPane.topAnchor="21.0">
+          <Label alignment="CENTER" layoutX="254.0" layoutY="21.0" prefHeight="58.0" prefWidth="138.0" style="&#10;" text="Line Chart" textAlignment="CENTER" wrapText="false" AnchorPane.topAnchor="21.0">
                      <font>
-                <Font size="24.0" fx:id="x1" />
+                <Font name="Century Gothic Bold" size="24.0" fx:id="x1" />
                      </font>
                   </Label>
-                  <LineChart fx:id="lineChart" layoutX="-2.0" layoutY="76.0" prefHeight="500.0" prefWidth="500.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
+                  <LineChart fx:id="lineChart" layoutX="50.0" layoutY="79.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: rgba(255,255,255,0.7); -fx-background-radius: 5%;" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="79.0">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
                     <yAxis>
                       <NumberAxis side="LEFT" />
                     </yAxis>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
                   </LineChart>
         </children>
       </AnchorPane>
         <AnchorPane prefHeight="598.0" prefWidth="348.0" style="-fx-background-color: #bee7e0#bee7e0;" styleClass="bodybg" stylesheets="@../application.css">
           <children>
-            <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Parameters" textAlignment="CENTER" wrapText="false" />
-                  <VBox layoutX="84.0" layoutY="125.0" prefHeight="314.0" prefWidth="177.0">
+            <Label alignment="CENTER" font="$x1" layoutX="113.0" layoutY="91.0" style="&#10;" text="Parameters" textAlignment="CENTER" wrapText="false" />
+                  <VBox layoutX="62.0" layoutY="142.0" prefHeight="314.0" prefWidth="234.0" style="-fx-background-color: rgba(255,255,255,0.7); -fx-background-radius: 5%;">
                      <children>
                         <Button mnemonicParsing="false" style="-fx-background-color: #4fab95#4fab95;" text="TEXT" />
-                        <Slider fx:id="firstSlider" />
+                        <Slider fx:id="firstSlider" showTickLabels="true" showTickMarks="true" />
                         <Button mnemonicParsing="false" style="-fx-background-color: #4fab95#4fab95;" text="TEXT" />
-                        <Slider fx:id="secondSlider" />
+                        <Slider fx:id="secondSlider" showTickLabels="true" showTickMarks="true" />
                         <Button mnemonicParsing="false" style="-fx-background-color: #4fab95#4fab95;" text="TEXT" />
-                        <Slider fx:id="thirdSlider" />
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="32.0" prefWidth="60.0" style="-fx-background-color: #4fab95#4fab95;" text="TEXT" />
-                        <Slider fx:id="fourthSlider" prefHeight="66.0" prefWidth="178.0">
-                           <padding>
-                              <Insets top="100.0" />
-                           </padding>
-                        </Slider>
+                        <Slider fx:id="thirdSlider" showTickLabels="true" showTickMarks="true" />
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: #4fab95#4fab95;" text="TEXT" />
+                        <Slider fx:id="fourthSlider" showTickLabels="true" showTickMarks="true" />
                      </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
                   </VBox>
           </children>
         </AnchorPane>
