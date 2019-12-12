@@ -25,10 +25,10 @@
                   </Label>
                   <LineChart fx:id="lineChart" layoutX="50.0" layoutY="79.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: rgba(255,255,255,0.7); -fx-background-radius: 5%;" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="79.0">
                     <xAxis>
-                      <CategoryAxis side="BOTTOM" />
+                      <CategoryAxis label="Year" side="BOTTOM" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis side="LEFT" />
+                      <NumberAxis label="Amount of animals" side="LEFT" />
                     </yAxis>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
