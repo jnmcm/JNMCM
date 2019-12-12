@@ -1,5 +1,6 @@
 package application.view;
 
+
 //needed for init
 import java.net.URL;
 import java.util.ResourceBundle;
