@@ -8,12 +8,14 @@ import java.util.ResourceBundle;
 import application.Main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 
 
 public class LineGraphController implements Initializable{
@@ -52,7 +54,6 @@ public class LineGraphController implements Initializable{
 		wolfData.getData().add(new XYChart.Data<String, Number>("2017", Integer.valueOf(nbWolves.getText())));
 		wolfData.getData().add(new XYChart.Data<String, Number>("2018", Integer.valueOf(nbWolves.getText())));
 		wolfData.getData().add(new XYChart.Data<String, Number>("2019", Integer.valueOf(nbWolves.getText())));
-		
 		return wolfData;
 	}
 	
@@ -101,20 +102,31 @@ public class LineGraphController implements Initializable{
 		
 
 		lineChart.getData().add(wolfData());
-		
-		 firstSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
-             @Override
-             public void changed(
-                ObservableValue<? extends Number> observableValue, 
-                Number oldValue, 
-                Number newValue) { 
-                   nbWolves.textProperty().setValue(
-                        String.valueOf(newValue.intValue()));
-                   lineChart.getData().set(3, wolfData());
-               }
-     });
+
+		firstSlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+
+			@Override
+			public void changed(
+					ObservableValue<? extends Number> observableValue, 
+					Number oldValue, 
+					Number newValue) { 
+
+//				Allows the graph to change just when the click in the slider is dropped
+				firstSlider.setOnMouseReleased(new EventHandler<MouseEvent>() { 
+					@Override
+					public void handle(MouseEvent event) {
+						
+//						Draw the graph with the new parameters specified in the slider
+						nbWolves.textProperty().setValue(
+								String.valueOf(newValue.intValue()));
+						lineChart.getData().set(3, wolfData());
+					};      
+				});
+			}
+
+		});			
 	}
-	
-	
+
 }
