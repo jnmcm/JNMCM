@@ -41,7 +41,7 @@ public class LineGraphController implements Initializable{
 	//add other labels later 
 	
 	private Main mainApp;
-	
+	// Milla comment
 	
 //	Use this method to fill the line graph
 	public XYChart.Series<String, Number> wolfData() {
