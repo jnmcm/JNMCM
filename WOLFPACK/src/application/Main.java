@@ -40,7 +40,6 @@ public class Main extends Application {
         }
     }
 	
-	//milla added the dropdown menu 
     public void showLineGraph() {
         try {
             // Load LineGraphOverview from fxml file.
