@@ -1,0 +1,27 @@
+* {
+  font-family: Calibri;
+  text-align: center;
+}
+
+body {
+	margin: 20px;
+}
+
+img.logo {
+  width: 200px;
+  display: inline-block;
+  margin: auto;
+}
+
+header {
+  text-align: center;
+}
+
+ ul {
+ list-style-type: none;
+ }
+
+footer {
+  font-style: italic;
+  color: #a0a0a0;
+}
