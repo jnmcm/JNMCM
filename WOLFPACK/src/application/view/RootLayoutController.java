@@ -21,7 +21,7 @@ public class RootLayoutController {
     public void AboutUs() {
     	try {
     		FXMLLoader loader = new FXMLLoader();
-    		loader.setLocation(Main.class.getResource("view/AboutUs.fxml"));
+    		loader.setLocation(Main.class.getResource("view/About.fxml"));
     		Parent root1 = (Parent) loader.load();
     		Stage stage = new Stage();
 
@@ -47,22 +47,7 @@ public class RootLayoutController {
     		e.printStackTrace();
     	}
     }
-    
-    public void License() {
-    	try {
-    		FXMLLoader loader = new FXMLLoader();
-    		loader.setLocation(Main.class.getResource("view/License.fxml"));
-    		Parent root1 = (Parent) loader.load();
-    		Stage stage = new Stage();
-
-    		stage.setTitle("License");
-    		stage.setScene(new Scene(root1));
-    		stage.show();
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-    }
-    
+       
     public void Close() {
         Platform.exit();
     }
