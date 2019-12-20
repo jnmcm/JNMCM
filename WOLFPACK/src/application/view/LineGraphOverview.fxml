@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -30,7 +29,7 @@
                   </Label>
                   <LineChart fx:id="lineChart" layoutX="50.0" layoutY="79.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: rgba(255,255,255,0.7); -fx-background-radius: 5%;" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="79.0">
                     <xAxis>
-                      <CategoryAxis label="Year" side="BOTTOM" />
+                      <NumberAxis label="Year" side="BOTTOM" fx:id="xAxis" />
                     </xAxis>
                     <yAxis>
                       <NumberAxis label="Amount of animals" side="LEFT" />
@@ -62,7 +61,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </GridPane>
-                        <Slider fx:id="firstSlider" majorTickUnit="500.0" max="2000.0" showTickLabels="true" showTickMarks="true" />
+                        <Slider fx:id="firstSlider" blockIncrement="1.0" majorTickUnit="10.0" max="20.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" />
                         <GridPane prefHeight="18.0" prefWidth="194.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -73,14 +72,14 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="34.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" style="-fx-background-color: #4fab95#4fab95;" text="TEXT" GridPane.rowIndex="1" />
+                              <Label fx:id="yearLabel" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="34.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" style="-fx-background-color: #4fab95#4fab95;" text="Year" GridPane.rowIndex="1" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </GridPane>
-                        <Slider fx:id="secondSlider" showTickLabels="true" showTickMarks="true" />
+                        <Slider fx:id="secondSlider" blockIncrement="0.0" majorTickUnit="5.0" max="2039.0" min="2019.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                         <GridPane prefHeight="18.0" prefWidth="194.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -91,13 +90,13 @@
                            </rowConstraints>
                            <children>
                               <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="34.0" text="0" GridPane.columnIndex="1" />
-                              <Button mnemonicParsing="false" style="-fx-background-color: #4fab95#4fab95;" text="TEXT" />
+                              <Button mnemonicParsing="false" style="-fx-background-color: #4fab95#4fab95;" text="Growth Cattle" visible="false" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </GridPane>
-                        <Slider fx:id="thirdSlider" showTickLabels="true" showTickMarks="true" />
+                        <Slider fx:id="thirdSlider" blockIncrement="0.1" majorTickUnit="0.5" max="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" visible="false" />
                         <GridPane prefHeight="18.0" prefWidth="194.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -108,13 +107,13 @@
                            </rowConstraints>
                            <children>
                               <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="34.0" text="0" GridPane.columnIndex="1" />
-                              <Button contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: #4fab95#4fab95;" text="TEXT" />
+                              <Button contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: #4fab95#4fab95;" text="Growth Horses" visible="false" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </GridPane>
-                        <Slider fx:id="fourthSlider" showTickLabels="true" showTickMarks="true" />
+                        <Slider fx:id="fourthSlider" blockIncrement="0.1" majorTickUnit="0.5" max="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" visible="false" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

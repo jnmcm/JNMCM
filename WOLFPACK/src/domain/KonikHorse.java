@@ -1,9 +1,10 @@
-package data;
+package domain;
 
 public class KonikHorse extends Animal {
 
 	public KonikHorse() {
 		super();
+		init();
 	}
 
 	public KonikHorse(int initPopulation, double growthRate, double carryingCapacity) {
@@ -16,7 +17,8 @@ public class KonikHorse extends Animal {
 		//later it should just read it from the last column of a specific csv file
 		this.setSpeciesName("Konik Horses");
 		this.setInitPopulation(490);
-		this.setGrowthRate(-0.0559);
+		this.setCurrentPopulation(getInitPopulation());
+		this.setGrowthRate(0.3);
 		this.setCarryingCapacity(400);
 	}
 }

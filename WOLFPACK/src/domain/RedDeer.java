@@ -1,9 +1,9 @@
-package data;
+package domain;
 
 public class RedDeer extends Animal {
-
 	public RedDeer() {
 		super();
+		init();
 	}
 
 	public RedDeer(int initPopulation, double growthRate, double carryingCapacity) {
@@ -16,7 +16,8 @@ public class RedDeer extends Animal {
 		//later it should just read it from the last column of a specific csv file
 		this.setSpeciesName("Red Deer");
 		this.setInitPopulation(1525);
-		this.setGrowthRate(-0.0047);
+		this.setCurrentPopulation(getInitPopulation());
+		this.setGrowthRate(0.3);
 		this.setCarryingCapacity(0);
 	}
 }

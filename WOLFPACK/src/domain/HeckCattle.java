@@ -1,9 +1,10 @@
-package data;
+package domain;
 
 public class HeckCattle extends Animal {
 
 	public HeckCattle() {
 		super();
+		init();
 	}
 
 	public HeckCattle(int initPopulation, double growthRate, double carryingCapacity) {
@@ -16,8 +17,8 @@ public class HeckCattle extends Animal {
 		//later it should just read it from the last column of a specific csv file
 		this.setSpeciesName("Heck Cattle");
 		this.setInitPopulation(280);
-		//growth rate = (present-past)/past
-		this.setGrowthRate(0.0968);
+		this.setCurrentPopulation(getInitPopulation());
+		this.setGrowthRate(0.3);
 		this.setCarryingCapacity(300);
 	}
 }
