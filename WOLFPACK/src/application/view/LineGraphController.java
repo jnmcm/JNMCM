@@ -20,16 +20,26 @@ import domain.KonikHorse;
 import domain.RedDeer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import math.ExponentialModel;
+import math.ModelFactory;
+import util.ClassNameCleaner;
+import util.PackageClassLoader;
 
 public class LineGraphController implements Initializable{
 	
@@ -42,12 +52,6 @@ public class LineGraphController implements Initializable{
 	
 	@FXML
     private Slider secondSlider;
-
-	@FXML
-    private Slider thirdSlider;
-	
-	@FXML
-    private Slider fourthSlider;
 	
 	@FXML
     private LineChart<Number, Number> lineChart;
@@ -64,39 +68,45 @@ public class LineGraphController implements Initializable{
 	@FXML
 	private NumberAxis yAxis;
 	
+	@FXML
+	private MenuButton modelBox;
+	
+	@FXML
+	private RadioButton yesToViewWolves;
+	
+	@FXML
+	private RadioButton noToViewWolves;
+	
+	@FXML
+	private RadioButton realtimeMode;
+	
+	@FXML
+	private RadioButton simulationMode;
+	
 	private Main mainApp;
 	
 	private XYChart.Series<Number, Number> deerData;
 	private XYChart.Series<Number, Number> horseData;
 	private XYChart.Series<Number, Number> cattleData;
+	private XYChart.Series<Number, Number> wolfData;
 	private int year = 2019;
 	
-//	Use this method to fill the line graph
-	public XYChart.Series<Number, Number> wolfData() {
-		XYChart.Series<Number, Number> wolfData = new XYChart.Series<Number, Number>();
-		wolfData.setName("Gray Wolves");
-		wolfData.getData().add(new XYChart.Data<Number, Number>(2013, Integer.valueOf(nbWolves.getText())));
-		wolfData.getData().add(new XYChart.Data<Number, Number>(2014, Integer.valueOf(nbWolves.getText())));
-		wolfData.getData().add(new XYChart.Data<Number, Number>(2015, Integer.valueOf(nbWolves.getText())));
-		wolfData.getData().add(new XYChart.Data<Number, Number>(2016, Integer.valueOf(nbWolves.getText())));
-		wolfData.getData().add(new XYChart.Data<Number, Number>(2017, Integer.valueOf(nbWolves.getText())));
-		wolfData.getData().add(new XYChart.Data<Number, Number>(2018, Integer.valueOf(nbWolves.getText())));
-		wolfData.getData().add(new XYChart.Data<Number, Number>(2019, Integer.valueOf(nbWolves.getText())));
-		return wolfData;
-	}
-	
+//	Uses selected model to populate animalMap and set on chart
 	public void updateDeer(int year) {
-		new ExponentialModel(redDeer, year);
+		int nextPop = ModelFactory.getModel().getCalculatedPopulation(redDeer);
+		AnimalMap.instance().setData(redDeer, year, nextPop);
 		deerData.setData(AnimalMap.instance().getData(redDeer));
 	}
 	
-	public void updateCattle(int year) {
-		new ExponentialModel(heckCattle, year);
+	public void updateCattle(int year) {		
+		int nextPop = ModelFactory.getModel().getCalculatedPopulation(heckCattle);
+		AnimalMap.instance().setData(heckCattle, year, nextPop);
 		cattleData.setData(AnimalMap.instance().getData(heckCattle));
 	}
 	
 	public void updateHorse(int year) {
-		new ExponentialModel(konikHorse, year);
+		int nextPop = ModelFactory.getModel().getCalculatedPopulation(konikHorse);
+		AnimalMap.instance().setData(konikHorse, year, nextPop);
 		horseData.setData(AnimalMap.instance().getData(konikHorse));
 	}
 
@@ -107,7 +117,23 @@ public class LineGraphController implements Initializable{
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		//First Model (before selection) is exponential
+		ModelFactory.setModel("Exponential Model");
+		fillModelBox();
 		fillData();
+		
+		nbWolves.setText("0");
+		
+//		gets MenuItems from model drop down menu and changes the model
+//		depending on the selection
+		ObservableList<MenuItem> menuItems = modelBox.getItems();
+		for (MenuItem m: menuItems) {
+			m.setOnAction(e -> {
+//				text on the model drop down box matches the selection
+				modelBox.setText(m.getText());
+				ModelFactory.setModel(m.getText());
+			});
+		}
 
 		firstSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
@@ -126,7 +152,7 @@ public class LineGraphController implements Initializable{
 					public void handle(MouseEvent event) {
 						
 //						Draw the graph with the new parameters specified in the slider
-						lineChart.getData().set(1, wolfData());
+						lineChart.getData().set(3, wolfData());
 					};      
 				});
 			}
@@ -162,21 +188,66 @@ public class LineGraphController implements Initializable{
 			}
 
 		});	
+		
+		final ToggleGroup group1 = yesToViewWolves.getToggleGroup();
+		group1.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+		    public void changed(ObservableValue<? extends Toggle> ov,
+		        Toggle old_toggle, Toggle new_toggle) {
+		            if (group1.getSelectedToggle() == yesToViewWolves) {
+		            	lineChart.getData().add(wolfData());
+		            } else {
+		            	lineChart.getData().remove(3);
+		            }
+		        }
+		});
+		
+		final ToggleGroup group2 = realtimeMode.getToggleGroup();
+		group2.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+		    public void changed(ObservableValue<? extends Toggle> ov,
+		        Toggle old_toggle, Toggle new_toggle) {
+		            if (group2.getSelectedToggle() == realtimeMode) {
+		            	//LATER
+		            } else {
+		            	//LATER
+		            }
+		        }
+		});
 	}
-	
+
+//	model box is filled using a class loader that selects all models in the package
+//	math, as long as it ends with the word Model (therefore ignoring IModels and the
+//	factory)
+	public void fillModelBox() {
+		try {
+			new PackageClassLoader();
+			Class[] classes = PackageClassLoader.getClasses("math");
+			for (Class c: classes) {
+				String cc = new ClassNameCleaner().cleanName(c);
+				if (cc.endsWith("Model")) {
+//					creates new MenuItems for every model
+					MenuItem m = new MenuItem(cc);
+					modelBox.getItems().add(m);
+				}
+			}
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 	public void fillData() {
 		AnimalMap.instance().delete();
 		redDeer.init();
 		konikHorse.init();
 		heckCattle.init();
 		
+//		add animals to the animalMap
 		AnimalMap.instance().addAnimal(redDeer);
 		AnimalMap.instance().addAnimal(konikHorse);
 		AnimalMap.instance().addAnimal(heckCattle);
-		
+	
 		final CSVParser parser;
 		final String path = "historicalData.csv";
 		
+//		reads the csv file historicalData.csv with first line as a header
 		try {
 			final Reader reader = new BufferedReader(new FileReader(getClass().getResource(path).getPath()));
 			parser = new CSVParser(reader, CSVFormat.DEFAULT
@@ -189,6 +260,7 @@ public class LineGraphController implements Initializable{
 				int horsePop = Integer.valueOf(record.get("Konik Horses"));
 				int cattlePop = Integer.valueOf(record.get("Heck Cattle"));
 				
+//				for every record read, add data to the map with the year and the matching population
 				AnimalMap.instance().setData(redDeer, year, deerPop);
 				AnimalMap.instance().setData(konikHorse, year, horsePop);
 				AnimalMap.instance().setData(heckCattle, year, cattlePop);
@@ -197,14 +269,14 @@ public class LineGraphController implements Initializable{
 		} catch (IOException e) { e.printStackTrace(); }
 		
 		lineChart.getData().clear();
-	
+		
+//		fixes scaling of the x-axis
 		xAxis.setAutoRanging(false);
 		xAxis.setLowerBound(2013);
 		xAxis.setUpperBound((int) secondSlider.getValue());
 		xAxis.setTickUnit(1);
 		
-		nbWolves.setText("0");
-		
+//		get data from the animalMap
 		deerData = new XYChart.Series<Number, Number>();
 		deerData.setName("Red Deer");
 		deerData.setData(AnimalMap.instance().getData(redDeer));
@@ -220,8 +292,16 @@ public class LineGraphController implements Initializable{
 		cattleData.setData(AnimalMap.instance().getData(heckCattle));
 		lineChart.getData().add(cattleData);
 		
-
 		lineChart.getData().add(wolfData());
+	}
+	
+	public XYChart.Series<Number, Number> wolfData() {
+		wolfData = new XYChart.Series<Number, Number>();
+		wolfData.setName("Gray Wolves");
+		for (int y=2013; y<=year; y++) {
+			wolfData.getData().add(new XYChart.Data<Number, Number>(y, Integer.valueOf(nbWolves.getText())));
+		}
+		return wolfData;
 	}
 
 }

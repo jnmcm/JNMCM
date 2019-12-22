@@ -3,19 +3,23 @@ package math;
 import data.AnimalMap;
 import domain.Animal;
 
-public class ExponentialModel {
+public class ExponentialModel implements IModels{
 	
-	public ExponentialModel(Animal animal, int year) {
-		try {
-			int population = animal.getCurrentPopulation();
-			int nextPop =  (int) (population*Math.exp(animal.getGrowthRate()));
-			AnimalMap.instance().setData(animal, year, nextPop);
-			animal.setCurrentPopulation(nextPop);
-			
-		}
-		catch(Exception e) {
-			System.out.println("Something went wrong in the exponential model");
-		}
-			
+	private int population;
+	private double growthRate;
+	
+	public ExponentialModel() {}
+	
+//	returns a new population based on the latest
+	@Override
+	public int getCalculatedPopulation(Animal animal) {
+		this.population = animal.getCurrentPopulation();
+		this.growthRate = animal.getGrowthRate();
+		
+		int nextPop = (int) (population*Math.exp(growthRate));
+		
+		animal.setCurrentPopulation(nextPop);
+		
+		return nextPop;
 	}
 }
