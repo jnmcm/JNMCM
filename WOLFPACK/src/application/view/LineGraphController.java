@@ -152,7 +152,10 @@ public class LineGraphController implements Initializable{
 					public void handle(MouseEvent event) {
 						
 //						Draw the graph with the new parameters specified in the slider
-						lineChart.getData().set(3, wolfData());
+						if (yesToViewWolves.isSelected()) {
+							lineChart.getData().set(3, wolfData());
+							
+						}
 					};      
 				});
 			}
