@@ -30,6 +30,7 @@ public class Main extends Application {
 		initRootLayout();
 		showLineGraph();
 	}
+//
 	
 	public void initRootLayout() {
         try {

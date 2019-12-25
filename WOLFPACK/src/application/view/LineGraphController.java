@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -24,6 +25,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -36,6 +38,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import math.ExponentialModel;
 import math.ModelFactory;
 import util.ClassNameCleaner;
@@ -96,6 +99,7 @@ public class LineGraphController implements Initializable{
 		int nextPop = ModelFactory.getModel().getCalculatedPopulation(redDeer);
 		AnimalMap.instance().setData(redDeer, year, nextPop);
 		deerData.setData(AnimalMap.instance().getData(redDeer));
+		
 	}
 	
 	public void updateCattle(int year) {		
@@ -121,6 +125,7 @@ public class LineGraphController implements Initializable{
 		ModelFactory.setModel("Exponential Model");
 		fillModelBox();
 		fillData();
+		
 		
 		nbWolves.setText("0");
 		
@@ -179,12 +184,14 @@ public class LineGraphController implements Initializable{
 					public void handle(MouseEvent event) {
 						year = 2019;
 						fillData();
+						
 //						Draw the graph with the new parameters specified in the slider
 						for (int y=2020; y<=newValue.intValue(); y++) {
 							year = y;
 							updateDeer(year);
 							updateCattle(year);
 							updateHorse(year);
+							
 						}
 					};
 				});
@@ -271,7 +278,9 @@ public class LineGraphController implements Initializable{
 			}
 		} catch (IOException e) { e.printStackTrace(); }
 		
+		
 		lineChart.getData().clear();
+		
 		
 //		fixes scaling of the x-axis
 		xAxis.setAutoRanging(false);
@@ -296,6 +305,7 @@ public class LineGraphController implements Initializable{
 		lineChart.getData().add(cattleData);
 		
 		lineChart.getData().add(wolfData());
+		
 	}
 	
 	public XYChart.Series<Number, Number> wolfData() {
@@ -303,6 +313,7 @@ public class LineGraphController implements Initializable{
 		wolfData.setName("Gray Wolves");
 		for (int y=2013; y<=year; y++) {
 			wolfData.getData().add(new XYChart.Data<Number, Number>(y, Integer.valueOf(nbWolves.getText())));
+			
 		}
 		return wolfData;
 	}

@@ -108,7 +108,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </GridPane>
-                        <Slider fx:id="secondSlider" blockIncrement="0.0" majorTickUnit="5.0" max="2039.0" min="2019.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                        <Slider fx:id="secondSlider" blockIncrement="0.0" majorTickUnit="5.0" max="2039" min="2019" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                            <padding>
                               <Insets bottom="5.0" />
                            </padding></Slider>
