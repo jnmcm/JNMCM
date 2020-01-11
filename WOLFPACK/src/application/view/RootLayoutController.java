@@ -18,6 +18,36 @@ public class RootLayoutController {
         this.mainApp = mainApp;
     }
     
+    public void TableView() {
+    	try {
+    		FXMLLoader loader = new FXMLLoader();
+    		loader.setLocation(Main.class.getResource("view/TableView.fxml"));
+    		Parent root = (Parent) loader.load();
+    		Stage stage = new Stage();
+    		
+    		stage.setTitle("Table View");
+    		stage.setScene(new Scene(root));
+    		stage.show();
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void BarChart() {
+    	try {
+    		FXMLLoader loader = new FXMLLoader();
+    		loader.setLocation(Main.class.getResource("view/BarChart.fxml"));
+    		Parent root = (Parent) loader.load();
+    		Stage stage = new Stage();
+    		
+    		stage.setTitle("Bar Chart");
+    		stage.setScene(new Scene(root));
+    		stage.show();
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
     public void AboutUs() {
     	try {
     		FXMLLoader loader = new FXMLLoader();

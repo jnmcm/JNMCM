@@ -7,32 +7,29 @@ import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Set;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import application.Main;
-import data.Park;
+import data.AnimalMap;
 import domain.Animal;
-import domain.GrayWolf;
 import domain.HeckCattle;
 import domain.KonikHorse;
 import domain.RedDeer;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -41,8 +38,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import math.ExponentialModel;
 import math.ModelFactory;
-import math.ModelWolf;
 import util.ClassNameCleaner;
 import util.PackageClassLoader;
 
@@ -51,7 +49,6 @@ public class LineGraphController implements Initializable{
 	private Animal redDeer = new RedDeer();
 	private Animal konikHorse = new KonikHorse();
 	private Animal heckCattle = new HeckCattle();
-	private Animal grayWolf = new GrayWolf();
 	
 	@FXML
     private Slider firstSlider;
@@ -97,33 +94,24 @@ public class LineGraphController implements Initializable{
 	private XYChart.Series<Number, Number> wolfData;
 	private int year = 2019;
 	
-	
-    private ScheduledExecutorService scheduledExecutorService;
-	
 //	Uses selected model to populate animalMap and set on chart
 	public void updateDeer(int year) {
 		int nextPop = ModelFactory.getModel().getCalculatedPopulation(redDeer);
-		Park.instance().setData(redDeer, year, nextPop);
-		deerData.setData(Park.instance().getDataAsDataPoints(redDeer));
+		AnimalMap.instance().setData(redDeer, year, nextPop);
+		deerData.setData(AnimalMap.instance().getData(redDeer));
 		
 	}
 	
 	public void updateCattle(int year) {		
 		int nextPop = ModelFactory.getModel().getCalculatedPopulation(heckCattle);
-		Park.instance().setData(heckCattle, year, nextPop);
-		cattleData.setData(Park.instance().getDataAsDataPoints(heckCattle));
+		AnimalMap.instance().setData(heckCattle, year, nextPop);
+		cattleData.setData(AnimalMap.instance().getData(heckCattle));
 	}
 	
 	public void updateHorse(int year) {
 		int nextPop = ModelFactory.getModel().getCalculatedPopulation(konikHorse);
-		Park.instance().setData(konikHorse, year, nextPop);
-		horseData.setData(Park.instance().getDataAsDataPoints(konikHorse));
-	}
-	
-	public void updateWolf(int year) {
-		int nextPop = new ModelWolf().getCalculatedPopulation(grayWolf);
-		Park.instance().setData(grayWolf, year, nextPop);
-		wolfData.setData(Park.instance().getDataAsDataPoints(grayWolf));
+		AnimalMap.instance().setData(konikHorse, year, nextPop);
+		horseData.setData(AnimalMap.instance().getData(konikHorse));
 	}
 
 //	Method not necessary at the moment
@@ -170,10 +158,7 @@ public class LineGraphController implements Initializable{
 						
 //						Draw the graph with the new parameters specified in the slider
 						if (yesToViewWolves.isSelected()) {
-							wolfData.getData().clear();
-							grayWolf.setInitPopulation(newValue.intValue());
-							grayWolf.init();
-							fillData();
+							lineChart.getData().set(3, wolfData());
 							
 						}
 					};      
@@ -197,6 +182,7 @@ public class LineGraphController implements Initializable{
 				secondSlider.setOnMouseReleased(new EventHandler<MouseEvent>() { 
 					@Override
 					public void handle(MouseEvent event) {
+						year = 2019;
 						fillData();
 						
 //						Draw the graph with the new parameters specified in the slider
@@ -205,7 +191,6 @@ public class LineGraphController implements Initializable{
 							updateDeer(year);
 							updateCattle(year);
 							updateHorse(year);
-							updateWolf(year);
 							
 						}
 					};
@@ -219,7 +204,7 @@ public class LineGraphController implements Initializable{
 		    public void changed(ObservableValue<? extends Toggle> ov,
 		        Toggle old_toggle, Toggle new_toggle) {
 		            if (group1.getSelectedToggle() == yesToViewWolves) {
-		            	lineChart.getData().add(wolfData);
+		            	lineChart.getData().add(wolfData());
 		            } else {
 		            	lineChart.getData().remove(3);
 		            }
@@ -231,25 +216,9 @@ public class LineGraphController implements Initializable{
 		    public void changed(ObservableValue<? extends Toggle> ov,
 		        Toggle old_toggle, Toggle new_toggle) {
 		            if (group2.getSelectedToggle() == realtimeMode) {
-		            	fillData();
-		            	secondSlider.setValue(2019);
-		            	secondSlider.setDisable(true);
-		            	firstSlider.setDisable(true);
-		            	noToViewWolves.setDisable(true);
-		            	yesToViewWolves.setDisable(true);
-		            	RealtimeData();
+		            	//LATER
 		            } else {
-		            	try {
-							Thread.currentThread().interrupt();
-							scheduledExecutorService.shutdown();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-		            	secondSlider.setDisable(false);
-		            	firstSlider.setDisable(false);
-		            	noToViewWolves.setDisable(false);
-		            	yesToViewWolves.setDisable(false);
-		            	fillData();
+		            	//LATER
 		            }
 		        }
 		});
@@ -275,17 +244,15 @@ public class LineGraphController implements Initializable{
 		}
 	}
 	public void fillData() {
-		Park.instance().delete();
+		AnimalMap.instance().delete();
 		redDeer.init();
 		konikHorse.init();
 		heckCattle.init();
-		grayWolf.init();
 		
 //		add animals to the animalMap
-		Park.instance().addAnimal(redDeer);
-		Park.instance().addAnimal(konikHorse);
-		Park.instance().addAnimal(heckCattle);
-		Park.instance().addAnimal(grayWolf);
+		AnimalMap.instance().addAnimal(redDeer);
+		AnimalMap.instance().addAnimal(konikHorse);
+		AnimalMap.instance().addAnimal(heckCattle);
 	
 		final CSVParser parser;
 		final String path = "historicalData.csv";
@@ -304,10 +271,9 @@ public class LineGraphController implements Initializable{
 				int cattlePop = Integer.valueOf(record.get("Heck Cattle"));
 				
 //				for every record read, add data to the map with the year and the matching population
-				Park.instance().setData(redDeer, year, deerPop);
-				Park.instance().setData(konikHorse, year, horsePop);
-				Park.instance().setData(heckCattle, year, cattlePop);
-				Park.instance().setData(grayWolf, year, grayWolf.getInitPopulation());
+				AnimalMap.instance().setData(redDeer, year, deerPop);
+				AnimalMap.instance().setData(konikHorse, year, horsePop);
+				AnimalMap.instance().setData(heckCattle, year, cattlePop);
 				
 			}
 		} catch (IOException e) { e.printStackTrace(); }
@@ -315,45 +281,41 @@ public class LineGraphController implements Initializable{
 		
 		lineChart.getData().clear();
 		
+		
+//		fixes scaling of the x-axis
+		xAxis.setAutoRanging(false);
+		xAxis.setLowerBound(2013);
+		xAxis.setUpperBound((int) secondSlider.getValue());
+		xAxis.setTickUnit(1);
+		
 //		get data from the animalMap
 		deerData = new XYChart.Series<Number, Number>();
 		deerData.setName("Red Deer");
-		deerData.setData(Park.instance().getDataAsDataPoints(redDeer));
+		deerData.setData(AnimalMap.instance().getData(redDeer));
 		lineChart.getData().add(deerData);
 		
 		horseData = new XYChart.Series<Number, Number>();
 		horseData.setName("Konik Horses");
-		horseData.setData(Park.instance().getDataAsDataPoints(konikHorse));
+		horseData.setData(AnimalMap.instance().getData(konikHorse));
 		lineChart.getData().add(horseData);
 		
 		cattleData = new XYChart.Series<Number, Number>();
 		cattleData.setName("Heck Cattle");
-		cattleData.setData(Park.instance().getDataAsDataPoints(heckCattle));
+		cattleData.setData(AnimalMap.instance().getData(heckCattle));
 		lineChart.getData().add(cattleData);
 		
-		wolfData = new XYChart.Series<Number, Number>();
-		wolfData.setName("Gray Wolves");
-		wolfData.setData(Park.instance().getDataAsDataPoints(grayWolf));
-		lineChart.getData().add(wolfData);
+		lineChart.getData().add(wolfData());
 		
 	}
 	
-	public void RealtimeData() {
-		final AtomicInteger y = new AtomicInteger(2019);
-        // setup a scheduled executor to periodically put data into the chart
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-
-            // Update the chart
-            Platform.runLater(() -> {
-                updateDeer(y.incrementAndGet());
-                updateHorse(y.get());
-                updateCattle(y.get());
-                if (yesToViewWolves.isSelected()) {
-                    updateWolf(y.get());
-                }
-            });
-        }, 0, 1, TimeUnit.SECONDS);
+	public XYChart.Series<Number, Number> wolfData() {
+		wolfData = new XYChart.Series<Number, Number>();
+		wolfData.setName("Gray Wolves");
+		for (int y=2013; y<=year; y++) {
+			wolfData.getData().add(new XYChart.Data<Number, Number>(y, Integer.valueOf(nbWolves.getText())));
+			
+		}
+		return wolfData;
 	}
-}
 
+}

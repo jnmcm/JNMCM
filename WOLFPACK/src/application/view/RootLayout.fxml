@@ -18,11 +18,12 @@
                      </accelerator></MenuItem>
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
+            <Menu mnemonicParsing="false" text="View">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#TableView" text="Table View" />
+                  <MenuItem mnemonicParsing="false" onAction="#BarChart" text="Bar Chart" />
+               </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem disable="true" mnemonicParsing="false" onAction="#UserGuide" text="User Guide" />

@@ -1,6 +1,6 @@
 package math;
 
-import data.AnimalMap;
+import data.Park;
 import domain.Animal;
 
 public class ExponentialModel implements IModels{
