@@ -9,7 +9,12 @@ import java.util.TreeSet;
 
 import data.Park;
 import domain.Animal;
+import domain.HeckCattle;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.XYChart.Data;
@@ -26,15 +31,16 @@ public class TableViewController implements Initializable{
 	private MenuButton byYear;
 	
 	@FXML
-	private TableView table;
+	private TableView<Number> table = new TableView<Number>();
 	
 	@FXML
-	private TableColumn firstCol;
+	private TableColumn<Number, String> firstCol = new TableColumn<>("key");
 	
 	@FXML
-	private TableColumn secondCol;
+	private TableColumn<Number, String> secondCol = new TableColumn<>("value");
 	
-	//for Carlos: can you fill the TableView with the class Park? 
+	TreeMap<Number, Number> data;
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -59,18 +65,55 @@ public class TableViewController implements Initializable{
 				bySpecies.setText(menu.getText());
 			});
 		}
+		
+		addDataForAnimal("Red Deer");
+		addDataForAnimal("Konik Horse");
+		addDataForAnimal("Heck Cattle");
+		addDataForAnimal("Gray Wolf");
+	}
+	
+	public void fillTable() {
+		table.getItems().clear();
+        table.getItems().addAll(data.keySet());
+        firstCol.setCellValueFactory(cd -> new SimpleStringProperty((cd.getValue()).toString()));	        
+        secondCol.setCellValueFactory(cd -> new SimpleStringProperty((data.get(cd.getValue()).toString())));
 	}
 	
 	public void addDataForAnimal(String animal) {
-		TreeMap<Number, Number> data;
+
 		if (animal=="Red Deer") {
-			data = Park.instance().getDataForAnimal(Park.instance().getDeer());
+			bySpecies.getItems().get(3).setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+			    public void handle(ActionEvent t) {
+			    	data = Park.instance().getDataForAnimal(Park.instance().getDeer());
+			        bySpecies.setText(bySpecies.getItems().get(3).getText());
+			        fillTable();
+			    }
+			    });
 		} else if (animal=="Konik Horse") {
-			data = Park.instance().getDataForAnimal(Park.instance().getHorse());
+			bySpecies.getItems().get(2).setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+			    public void handle(ActionEvent t) {
+			    	data = Park.instance().getDataForAnimal(Park.instance().getHorse());
+			        bySpecies.setText(bySpecies.getItems().get(2).getText());
+			        fillTable();
+			    }
+			    });
 		} else if (animal=="Heck Cattle") {
-			data = Park.instance().getDataForAnimal(Park.instance().getCattle());
+			
+			bySpecies.getItems().get(1).setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+			    public void handle(ActionEvent t) {
+			    	data = Park.instance().getDataForAnimal(Park.instance().getCattle());
+			        bySpecies.setText(bySpecies.getItems().get(1).getText());
+			        fillTable();
+			    }
+			    });
 		} else if (animal=="Gray Wolf") {
-			data = Park.instance().getDataForAnimal(Park.instance().getWolf());
+			bySpecies.getItems().get(0).setOnAction((EventHandler<ActionEvent>) new EventHandler<ActionEvent>() {
+			    public void handle(ActionEvent t) {
+			    	data = Park.instance().getDataForAnimal(Park.instance().getWolf());
+			        bySpecies.setText(bySpecies.getItems().get(0).getText());
+			        fillTable();
+			    }
+			    });
 		}
 		firstCol.setText("Year");
 		secondCol.setText("Population");
