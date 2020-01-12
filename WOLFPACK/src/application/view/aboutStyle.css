@@ -13,6 +13,10 @@ img.logo {
   margin: auto;
 }
 
+img#ourLogo {
+	width: 400px;
+}
+
 header {
   text-align: center;
 }

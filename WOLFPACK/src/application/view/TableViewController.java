@@ -28,9 +28,6 @@ public class TableViewController implements Initializable{
 	private MenuButton bySpecies;
 	
 	@FXML
-	private MenuButton byYear;
-	
-	@FXML
 	private TableView<Number> table = new TableView<Number>();
 	
 	@FXML
@@ -48,15 +45,6 @@ public class TableViewController implements Initializable{
 		for (Animal a:allAnimals) {
 			MenuItem m = new MenuItem(a.getSpeciesName());
 			bySpecies.getItems().add(m);
-		}
-		
-		SortedSet<Integer> allYears = new TreeSet<>();
-		for (Number data: Park.instance().getDataForAnimal(Park.instance().getDeer()).keySet()) {
-			allYears.add(data.intValue());
-		}
-		for (int y:allYears) {
-			MenuItem m = new MenuItem(String.valueOf(y));
-			byYear.getItems().add(m);
 		}
 		
 		for (MenuItem menu:bySpecies.getItems()) {
