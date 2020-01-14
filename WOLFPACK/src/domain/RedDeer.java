@@ -15,7 +15,7 @@ public class RedDeer extends Animal {
 		//here goes initial data of Red Deer 
 		//later it should just read it from the last column of a specific csv file
 		this.setSpeciesName("Red Deer");
-		this.setInitPopulation(151);
+		this.setInitPopulation(1525);
 		this.setCurrentPopulation(getInitPopulation());
 		this.setGrowthRate(0.4);
 		this.setCarryingCapacity(3000);
