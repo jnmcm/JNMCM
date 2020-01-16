@@ -17,7 +17,7 @@ public class RedDeer extends Animal {
 		this.setSpeciesName("Red Deer");
 		this.setInitPopulation(1525);
 		this.setCurrentPopulation(getInitPopulation());
-		this.setGrowthRate(0.4);
-		this.setCarryingCapacity(3000);
+		this.setGrowthRate(0.3721);
+		this.setCarryingCapacity(2000);
 	}
 }

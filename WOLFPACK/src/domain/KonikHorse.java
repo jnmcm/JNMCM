@@ -18,7 +18,7 @@ public class KonikHorse extends Animal {
 		this.setSpeciesName("Konik Horse");
 		this.setInitPopulation(490);
 		this.setCurrentPopulation(getInitPopulation());
-		this.setGrowthRate(0.3);
-		this.setCarryingCapacity(400);
+		this.setGrowthRate(0.3301);
+		this.setCarryingCapacity(800);
 	}
 }
