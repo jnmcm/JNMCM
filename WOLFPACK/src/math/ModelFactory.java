@@ -20,6 +20,8 @@ public class ModelFactory {
 		case "Lotka Volterra Model":
 			model = new LotkaVolterraModel();
 			break;
+		case "Competition Model":
+			model = new CompetitionModel();
 		}
 		
 	}

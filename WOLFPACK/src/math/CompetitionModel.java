@@ -34,7 +34,7 @@ public class CompetitionModel implements IModels {
 	public CompetitionModel() {
 	}
 	
-	protected void initVars() {
+	private void initVars() {
 		Animal d = Park.instance().getDeer();
 		Animal c = Park.instance().getCattle();
 		Animal h = Park.instance().getHorse();
