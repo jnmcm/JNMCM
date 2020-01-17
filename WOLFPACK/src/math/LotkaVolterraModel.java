@@ -10,14 +10,17 @@ public class LotkaVolterraModel implements IModels {
 	Animal cattle;
 	Animal horse;
 	
+	//populations
 	double N1;
 	double N2;
 	double N3;
 	
+	//carrying capacities
 	double K1;
 	double K2;
 	double K3;
 	
+	//growth rates
 	double G1;
 	double G2;
 	double G3;
