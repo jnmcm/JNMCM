@@ -2,84 +2,62 @@ package math;
 
 import data.Park;
 import domain.Animal;
-import domain.RedDeer;
+import domain.GrayWolf;
 
-public class LotkaVolterraModel implements IModels {
+public class LotkaVolterraModel extends CompetitionModel implements IModels {
+	//Use the formula sheet I sent you @Carlos
+	//Check LotkaVolterraModel class for example
+	//we need capture efficiency, for now, you can use random data I guess
 	
-	//1=deer, 2=cattle, 3=horse
+	private double captureEfficiency;
 	
-	// r = rate of growth
-	private double r1;
-	private double r2;
-	private double r3;
+	Animal wolf = Park.instance().getWolf();
+	Animal deer = Park.instance().getDeer();
+	Animal cattle = Park.instance().getCattle();
+	Animal horse = Park.instance().getHorse();
 	
-	//N = init population
-	private double N1;
-	private double N2;
-	private double N3;
+	double N1 = deer.getCurrentPopulation();
+	double N2 = cattle.getCurrentPopulation();
+	double N3 = horse.getCurrentPopulation();
 	
-	//K = carrying capacity
-	private double K1;
-	private double K2;
-	private double K3;
+	double K1 = deer.getCarryingCapacity();
+	double K2 = cattle.getCarryingCapacity();
+	double K3 = horse.getCarryingCapacity();
 	
-	//a = competition coefficient
-	private double a12;
-	private double a13;
-	private double a21;
-	private double a23;
-	private double a31;
-	private double a32;
-	
-	public LotkaVolterraModel() {
-	}
-	
-	protected void initVars() {
-		Animal d = Park.instance().getDeer();
-		Animal c = Park.instance().getCattle();
-		Animal h = Park.instance().getHorse();
-		
-		r1 = d.getGrowthRate();
-		r2 = c.getGrowthRate();
-		r3 = h.getGrowthRate();
-		
-		N1 = d.getCurrentPopulation();
-		N2 = c.getCurrentPopulation();
-		N3 = h.getCurrentPopulation();
-		
-		K1 = d.getCarryingCapacity();
-		K2 = d.getCarryingCapacity();
-		K3 = d.getCarryingCapacity();
-		
-		//calculates using competition coefficient formula as follows:
-		//					  SIGMA(pih*pjh)
-		//				aij = -----------
-		//					   SIGMA(pih)^2
-		a12 = ((0.28*0.75)+(0.34*0.02)+(0.38*0.23))/((0.28*0.28)+(0.34*0.34)+(0.38*0.38));
-		a13 = ((0.28*0.86)+(0.34*0.12)+(0.38*0.02))/((0.28*0.28)+(0.34*0.34)+(0.38*0.38));
-		a21 = ((0.28*0.75)+(0.34*0.02)+(0.38*0.23))/((0.75*0.75)+(0.02*0.02)+(0.23*0.23));
-		a23 = ((0.86*0.75)+(0.12*0.02)+(0.02*0.23))/((0.75*0.75)+(0.02*0.02)+(0.23*0.23));
-		a31 = ((0.28*0.86)+(0.34*0.12)+(0.38*0.02))/((0.86*0.86)+(0.12*0.12)+(0.02*0.02));
-		a32 = ((0.86*0.75)+(0.12*0.02)+(0.02*0.23))/((0.86*0.86)+(0.12*0.12)+(0.02*0.02));
-	}
+	double G1 = deer.getGrowthRate();
+	double G2 = cattle.getGrowthRate();
+	double G3 = horse.getGrowthRate();
 	
 	@Override
 	public int getCalculatedPopulation(Animal animal) {
-		initVars();
-		double nextpop = 0;
-		//formula:
-		//					  	  (Ki - Ni - aij*Nj - aik*Nk)
-		//			Ni + ri*Ni * ------------------------------
-		//			`							Ki
+
+		this.captureEfficiency = 0.0005;
+		int predatorPop = wolf.getCurrentPopulation();
+		double a23 = ((0.86*0.75)+(0.12*0.02)+(0.02*0.23))/((0.75*0.75)+(0.02*0.02)+(0.23*0.23));
+		double a32 = ((0.86*0.75)+(0.12*0.02)+(0.02*0.23))/((0.86*0.86)+(0.12*0.12)+(0.02*0.02));
+		double nextPop = 0;
+		
 		if (animal.getSpeciesName().equalsIgnoreCase("Red Deer")) {
-			nextpop = N1 + (r1 * N1 * (K1 - N1 - a12*N2 - a13*N3) / K1);
+				
+			double calculation = G1 * N1 * (1 - (N1 / K1)) - captureEfficiency * N1 * predatorPop;
+			nextPop = calculation + N1;
+//			deer.setCurrentPopulation((int) Math.round(nextPop));
+
 		} else if (animal.getSpeciesName().equalsIgnoreCase("Heck Cattle")) {
-			nextpop = N2 + (r2 * N2 * (K2 - N2 - a21*N1 - a23*N3) / K2);
+			
+			double calculation = G2 * N2 * ((K2 - N2 - a23 * N3)/K2)- captureEfficiency * N2 * predatorPop;
+			nextPop = calculation + N2;
+//			cattle.setCurrentPopulation((int) Math.round(nextPop));
+			
 		} else if (animal.getSpeciesName().equalsIgnoreCase("Konik Horse")) {
-			nextpop = N3 + (r3 * N3 * (K3 - N3 - a31*N1 - a32*N2) / K3);
+
+			double calculation = G3 * N3 * ((K3 - N3 - a32 * N2)/K3) - captureEfficiency * N3 * predatorPop;
+			nextPop = calculation + N3;
+//			horse.setCurrentPopulation((int) Math.round(nextPop));
 		}
-		animal.setCurrentPopulation((int) Math.round(nextpop));
-		return (int) Math.round(nextpop);
+		animal.setCurrentPopulation((int) nextPop);
+		return (int) nextPop;
+
 	}
 
 }

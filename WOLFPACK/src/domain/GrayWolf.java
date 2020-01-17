@@ -20,5 +20,5 @@ public class GrayWolf extends Animal {
 		this.setGrowthRate(0.4);
 		this.setCarryingCapacity(200);
 	}
-
+	
 }

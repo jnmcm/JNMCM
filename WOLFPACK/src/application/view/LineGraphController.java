@@ -235,7 +235,8 @@ public class LineGraphController implements Initializable{
 		            	secondSlider.setValue(2019);
 		            	secondSlider.setDisable(true);
 		            	firstSlider.setDisable(true);
-		            	noToViewWolves.setDisable(true);
+//		            	noToViewWolves.setDisable(true);
+		            	noToViewWolves.setVisible(false);
 		            	yesToViewWolves.setDisable(true);
 		            	RealtimeData();
 		            } else {
