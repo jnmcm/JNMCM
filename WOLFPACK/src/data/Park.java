@@ -63,10 +63,10 @@ public class Park {
 		return animalMap.get(animal).getAllPopulations();
 	}
 	
-	public TreeMap<Number, Number> getDataForYear(Number y) {
-		TreeMap<Number, Number> all = new TreeMap<>();
+	public TreeMap<Animal, Number> getDataForYear(Number y) {
+		TreeMap<Animal, Number> all = new TreeMap<>();
 		for (Animal a: animalMap.keySet()) {
-			all.put(y, animalMap.get(a).getPopulationForYear(y));
+			all.put(a, animalMap.get(a).getPopulationForYear(y));
 		}
 		return all;
 	}

@@ -18,7 +18,7 @@ public class HeckCattle extends Animal {
 		this.setSpeciesName("Heck Cattle");
 		this.setInitPopulation(280);
 		this.setCurrentPopulation(getInitPopulation());
-		this.setGrowthRate(0.1589);
-		this.setCarryingCapacity(450);
+		this.setGrowthRate(0.2265741122);
+		this.setCarryingCapacity(500);
 	}
 }

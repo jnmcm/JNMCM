@@ -17,6 +17,7 @@ public class CompetitionModel implements IModels {
 	private double N1;
 	private double N2;
 	private double N3;
+	private double N4;
 	
 	//K = carrying capacity
 	private double K1;
@@ -31,6 +32,8 @@ public class CompetitionModel implements IModels {
 	private double a31;
 	private double a32;
 	
+	private double captureEfficiency;
+	
 	public CompetitionModel() {
 	}
 	
@@ -38,6 +41,7 @@ public class CompetitionModel implements IModels {
 		Animal d = Park.instance().getDeer();
 		Animal c = Park.instance().getCattle();
 		Animal h = Park.instance().getHorse();
+		Animal w = Park.instance().getWolf();
 		
 		r1 = d.getGrowthRate();
 		r2 = c.getGrowthRate();
@@ -46,10 +50,12 @@ public class CompetitionModel implements IModels {
 		N1 = d.getCurrentPopulation();
 		N2 = c.getCurrentPopulation();
 		N3 = h.getCurrentPopulation();
+		N4 = w.getCurrentPopulation();
 		
 		K1 = d.getCarryingCapacity();
 		K2 = d.getCarryingCapacity();
 		K3 = d.getCarryingCapacity();
+		
 		
 		//calculates using competition coefficient formula as follows:
 		//					  SIGMA(pih*pjh)
@@ -72,11 +78,14 @@ public class CompetitionModel implements IModels {
 		//			Ni + ri*Ni * ------------------------------
 		//			`							Ki
 		if (animal.getSpeciesName().equalsIgnoreCase("Red Deer")) {
-			nextpop = N1 + (r1 * N1 * (K1 - N1 - a12*N2 - a13*N3) / K1);
+			captureEfficiency = 0.075;
+			nextpop = N1 + (r1 * N1 * (K1 - N1 - a12*N2 - a13*N3) / K1) - captureEfficiency*N1*N4;
 		} else if (animal.getSpeciesName().equalsIgnoreCase("Heck Cattle")) {
-			nextpop = N2 + (r2 * N2 * (K2 - N2 - a21*N1 - a23*N3) / K2);
+			captureEfficiency = 0.006;
+			nextpop = N2 + (r2 * N2 * (K2 - N2 - a21*N1 - a23*N3) / K2) - captureEfficiency*N2*N4;
 		} else if (animal.getSpeciesName().equalsIgnoreCase("Konik Horse")) {
-			nextpop = N3 + (r3 * N3 * (K3 - N3 - a31*N1 - a32*N2) / K3);
+			captureEfficiency = 0.006;
+			nextpop = N3 + (r3 * N3 * (K3 - N3 - a31*N1 - a32*N2) / K3) - captureEfficiency*N3*N4;
 		}
 		animal.setCurrentPopulation((int) Math.round(nextpop));
 		return (int) Math.round(nextpop);

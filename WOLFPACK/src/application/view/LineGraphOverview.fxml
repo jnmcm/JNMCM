@@ -41,7 +41,7 @@
                   </LineChart>
         </children>
       </AnchorPane>
-        <AnchorPane prefHeight="598.0" prefWidth="348.0" style="-fx-background-color: #bee7e0#bee7e0;" styleClass="bodybg" stylesheets="@../application.css">
+        <AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="598.0" prefWidth="348.0" style="-fx-background-color: #bee7e0#bee7e0;" styleClass="bodybg" stylesheets="@../application.css">
           <children>
             <Label alignment="CENTER" font="$x1" layoutX="84.0" layoutY="135.0" prefHeight="38.0" prefWidth="194.0" style="-fx-border-color: #4fab95#4fab95 #4fab95#4fab95;" text="Parameters" textAlignment="CENTER" wrapText="false" />
                   <VBox layoutX="62.0" layoutY="195.0" prefHeight="300.0" prefWidth="234.0" style="-fx-background-color: rgba(255,255,255,0.7); -fx-background-radius: 5%;">

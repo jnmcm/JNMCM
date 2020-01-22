@@ -50,7 +50,6 @@ public class LotkaVolterraModel implements IModels {
 		G2 = cattle.getGrowthRate();
 		G3 = horse.getGrowthRate();
 		
-		captureEfficiency = 0.0005;
 		predatorPop = wolf.getCurrentPopulation();
 		a23 = ((0.86*0.75)+(0.12*0.02)+(0.02*0.23))/((0.75*0.75)+(0.02*0.02)+(0.23*0.23));
 		a32 = ((0.86*0.75)+(0.12*0.02)+(0.02*0.23))/((0.86*0.86)+(0.12*0.12)+(0.02*0.02));
@@ -62,19 +61,19 @@ public class LotkaVolterraModel implements IModels {
 		double nextPop = 0;
 		
 		if (animal.getSpeciesName().equalsIgnoreCase("Red Deer")) {
-				
+			captureEfficiency = 0.075;
 			double calculation = G1 * N1 * (1 - (N1 / K1)) - captureEfficiency * N1 * predatorPop;
 			nextPop = calculation + N1;
 //			deer.setCurrentPopulation((int) Math.round(nextPop));
 
 		} else if (animal.getSpeciesName().equalsIgnoreCase("Heck Cattle")) {
-			
+			captureEfficiency = 0.006;
 			double calculation = G2 * N2 * ((K2 - N2 - a23 * N3)/K2)- captureEfficiency * N2 * predatorPop;
 			nextPop = calculation + N2;
 //			cattle.setCurrentPopulation((int) Math.round(nextPop));
 			
 		} else if (animal.getSpeciesName().equalsIgnoreCase("Konik Horse")) {
-
+			captureEfficiency = 0.006;
 			double calculation = G3 * N3 * ((K3 - N3 - a32 * N2)/K3) - captureEfficiency * N3 * predatorPop;
 			nextPop = calculation + N3;
 //			horse.setCurrentPopulation((int) Math.round(nextPop));
